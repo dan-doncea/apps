@@ -19,6 +19,11 @@ public class UserService {
 		this.usrBuilderService = usrBuilderService;
 	}
 
+	public Mono<User> getCurrentUser() {
+		return usrBuilderService.findByUsername(
+				SecurityContextHolder.getContext().getAuthentication().getName());
+	}
+	
 	public Mono<User> subscribe() {
 		return usrBuilderService.findByUsername(
 				SecurityContextHolder.getContext().getAuthentication().getName())

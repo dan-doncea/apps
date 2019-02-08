@@ -39,22 +39,14 @@ public class ArticleService {
 	    }
 	    
 	    @PreAuthorize("hasRole('ADMIN')") 
-	    public Mono<Article> insert(String title, String content) { 
+	    public Mono<Article> insert(String title, String content) {
 	    	 return this.articleRepository
 	    	            .save(new Article(title, content))
-	    	            .doOnSuccess(profile -> {
-					    	boolean currentUserIsSubscribed = usrBuilderService.findByUsername(
-					    			SecurityContextHolder.getContext().getAuthentication().getName())
-					    			.map(user -> user.isSubscribed())
-					    			.block();
-					    	if(currentUserIsSubscribed) {
-						    	this.publisher.publishEvent(new ArticleCreatedEvent(profile));
-					    	}
-	    	            });
+	    	            .doOnSuccess(article -> this.publisher.publishEvent(new ArticleCreatedEvent(article)));
 	    }
 	    
 	    @PreAuthorize("hasRole('ADMIN')")
-	    public Mono<Article> update(String id, String title, String content) { 
+	    public Mono<Article> update(String id, String title, String content) {  
 	        return this.articleRepository
 	            .findById(id)
 	            .map(article -> new Article(article.getId(), title, content))

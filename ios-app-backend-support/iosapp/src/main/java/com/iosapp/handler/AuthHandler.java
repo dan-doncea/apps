@@ -30,7 +30,7 @@ public class AuthHandler {
 //				.flatMap(tok -> ServerResponse.ok().body(Mono.just(tok), TokenResponse.class))
 //				.switchIfEmpty(ServerResponse.badRequest().body(Mono.just(new BadRequestException("Incorrect username or password.")), BadRequestException.class));
 //	}
-
+	
 	public Mono<ServerResponse> login(ServerRequest request) {	
 		return authentificationReadResponse(
 				request.bodyToMono(LoginRequest.class)

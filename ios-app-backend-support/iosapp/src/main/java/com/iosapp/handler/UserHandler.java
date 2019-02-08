@@ -22,6 +22,10 @@ public class UserHandler {
 		this.userService = userService;
 	}
 
+	public Mono<ServerResponse> getCurrentUser(ServerRequest request) {	
+		return defaultWriteResponse(this.userService.getCurrentUser());
+	}
+	
 	public Mono<ServerResponse> subscribe(ServerRequest request) {	
 		return defaultReadResponse(
 				this.userService.subscribe(), Mono.just(new InformativeResponse("You subscribed.")));
@@ -39,5 +43,12 @@ public class UserHandler {
             .ok()
             .contentType(MediaType.APPLICATION_JSON_UTF8)          
             .body(message, InformativeResponse.class);
+    }
+    
+    private static Mono<ServerResponse> defaultWriteResponse(Publisher<User> user) {
+        return ServerResponse
+            .ok()
+            .contentType(MediaType.APPLICATION_JSON_UTF8)          
+            .body(user, User.class);
     }
 }

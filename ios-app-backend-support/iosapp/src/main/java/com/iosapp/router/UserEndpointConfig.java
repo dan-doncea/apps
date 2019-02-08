@@ -16,6 +16,7 @@ public class UserEndpointConfig {
     @Bean
     RouterFunction<ServerResponse> userRoutes(UserHandler handler) { 
         	return route(RequestPredicates.POST("/subscribe"), handler::subscribe)
-        			.andRoute(RequestPredicates.POST("/unsubscribe"), handler::unsubscribe);
+        			.andRoute(RequestPredicates.POST("/unsubscribe"), handler::unsubscribe)
+        			.andRoute(RequestPredicates.GET("/user"), handler::getCurrentUser);
     }
 }

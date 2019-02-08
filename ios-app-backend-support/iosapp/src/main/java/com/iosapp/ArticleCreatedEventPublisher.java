@@ -30,7 +30,7 @@ public class ArticleCreatedEventPublisher implements
 	}
 	
 	@Override
-	public void accept(FluxSink<ArticleCreatedEvent> sink) {
+	public void accept(FluxSink<ArticleCreatedEvent> sink) { 
         this.executor.execute(() -> {
             while (true)
                 try {
